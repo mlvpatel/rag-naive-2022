@@ -2,7 +2,7 @@
 
 **A retrieval augmented generation service for question answering over your own documents. The naive baseline of the RagFlow line, 2022 generation.**
 
-**Part of the RagFlow line, enterprise RAG built year by year. This repository is RagFlow, Naive RAG, 2022.** See [the full line](#the-ragflow-line) below.
+**Part of the RagFlow line, a series of reference enterprise RAG implementations. This repository is RagFlow, Naive RAG.** See [the full line](#the-ragflow-line) below.
 
 RagFlow answers questions about your documents with the original 2022 RAG pattern: embed the question, search a vector store once, put the top matches into the prompt, and generate a grounded answer. No hybrid search, no reranking, no query rewriting. It is packaged as a real service, FastAPI, a Streamlit chat interface, multi user sessions, and Docker, so it runs like production while the retrieval stays honestly naive.
 
@@ -16,7 +16,7 @@ The clip above is a live, unedited run on a local llama3.2 model with the bundle
 
 ## Why the naive baseline matters
 
-RagFlow is the starting point of the line. It shows the core RAG idea in its simplest honest form, so every later rung has a clear before to compare against. When a harder question gets a shallow answer, that is the naive baseline showing its limits, the very limits that hybrid search and reranking address in RagFlowPlus 2023 and the rungs beyond it.
+RagFlow is the starting point of the line. It shows the core RAG idea in its simplest honest form, so every later implementation has a clear before to compare against. When a harder question gets a shallow answer, that is the naive baseline showing its limits, the very limits that hybrid search and reranking address in RagFlowPlus 2023 and the implementations beyond it.
 
 ## Features
 
@@ -149,7 +149,7 @@ docker/           Dockerfile and Compose stack
 
 ## The RagFlow line
 
-RagFlow is the first rung in a year by year line of enterprise RAG systems, each a faithful snapshot of the best production RAG of its year.
+RagFlow is the first implementation in the RagFlow line, a series demonstrating distinct enterprise RAG retrieval strategies.
 
 | Year | Repository | Generation |
 |---|---|---|
@@ -159,7 +159,7 @@ RagFlow is the first rung in a year by year line of enterprise RAG systems, each
 | 2025 | [RagFlowProPlus](https://github.com/mlvpatel/RagFlowProPlus), RagFlowKAG | Agentic RAG, knowledge graph with reasoning |
 | 2026 | [RagFlowProMax](https://github.com/mlvpatel/RagFlowProMax), UltimateRAG | Multi agent enterprise, multimodal |
 
-Every rung is measured on the same golden questions, keyless, in the [rag-catalog](https://github.com/mlvpatel/rag-catalog) hub.
+Every implementation is measured on the same golden questions, keyless, in the [rag-catalog](https://github.com/mlvpatel/rag-catalog) hub.
 
 ## Author
 
