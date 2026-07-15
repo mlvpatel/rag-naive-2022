@@ -27,7 +27,7 @@ RagFlow is the starting point of the line. It shows the core RAG idea in its sim
 | Generation | OpenAI, or local Ollama, chosen by model name |
 | Sessions | Multi user conversation log stored in SQLite |
 | Documents | Upload, list, and delete; text and PDF |
-| Security | API key auth, rate limiting, input sanitization, CORS |
+| Security | Loopback binding, non-root container, rate limiting, upload cap, input sanitization, CORS |
 | Packaging | Docker Compose for the full stack, unit and integration tests, CI |
 
 ## Architecture
@@ -114,17 +114,30 @@ Settings come from environment variables, see `.env.example`.
 | LLM_MODEL | gpt-3.5-turbo | gpt names use OpenAI, llama names use Ollama |
 | CHROMA_DIR | ./chroma_db | Chroma persistence directory |
 | TOP_K | 4 | Chunks retrieved for the prompt |
-| API_KEY | change_me | Required in the X-API-Key header |
+| CORS_ORIGINS | http://localhost:8501 | Allowed browser origins |
+| MAX_UPLOAD_MB | 25 | Rejected above this size |
+
+## A note on access
+
+The service has no authentication, and that is a decision rather than an omission.
+It is a reference implementation meant to run on one machine, so Compose maps both
+ports to `127.0.0.1` and the container runs as an unprivileged user. A shipped
+default credential would be the worse option: it reads as protection while sitting
+in a public repository for anyone to read. What remains is real, per route rate
+limiting, a size cap on uploads, HTML stripping on input, and a narrow CORS origin.
+
+Put an authenticating gateway in front of it before binding it to anything wider
+than loopback.
 
 ## API reference
 
-| Method and path | Purpose |
-|---|---|
-| GET /health | Liveness, no auth |
-| POST /v1/chat | Naive RAG answer with session logging |
-| POST /v1/upload-doc | Upload and index a document |
-| GET /v1/list-docs | List indexed documents |
-| POST /v1/delete-doc | Delete a document and its chunks |
+| Method and path | Purpose | Limit |
+|---|---|---|
+| GET /health | Liveness | none |
+| POST /v1/chat | Naive RAG answer with session logging | 30/min |
+| POST /v1/upload-doc | Upload and index a document | 6/min, 25 MB |
+| GET /v1/list-docs | List indexed documents | none |
+| POST /v1/delete-doc | Delete a document and its chunks | none |
 
 ## Testing
 

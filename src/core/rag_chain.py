@@ -7,6 +7,7 @@ generate. No query rewriting, no reranking, no fusion. This is the textbook
 
 from __future__ import annotations
 
+from functools import lru_cache
 from typing import Dict, List
 
 from langchain_core.output_parsers import StrOutputParser
@@ -28,7 +29,10 @@ _PROMPT = ChatPromptTemplate.from_messages(
 )
 
 
+@lru_cache
 def _make_llm():
+    """Cached like the vector store: the client holds a connection pool, and
+    rebuilding it per question throws that away for no gain."""
     s = get_settings()
     name = s.llm_model.lower()
     if name.startswith(("llama", "qwen", "mistral", "gemma", "deepseek", "phi")):

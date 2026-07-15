@@ -36,9 +36,13 @@ class Settings(BaseSettings):
     chunk_size: int = 1000
     chunk_overlap: int = 150
 
-    # API.
-    api_key: str = "change_me"
-    cors_origins: str = "*"
+    # API. This baseline is a local reference service, so the default origin is
+    # the local frontend only. Widen it deliberately, never by default.
+    cors_origins: str = "http://localhost:8501"
+
+    # Uploads are embedded in full, so an unbounded file is an unbounded bill
+    # and an unbounded disk. Cap it.
+    max_upload_mb: int = 25
 
 
 @lru_cache

@@ -41,6 +41,12 @@ def init_db() -> None:
                 chunks INTEGER NOT NULL,
                 created_at TEXT NOT NULL
             )""")
+        # Every history read filters on session_id, which is a full scan of every
+        # session's turns without this.
+        c.execute(
+            "CREATE INDEX IF NOT EXISTS idx_chat_logs_session "
+            "ON chat_logs (session_id, id DESC)"
+        )
 
 
 def _now() -> str:
